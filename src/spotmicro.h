@@ -19,27 +19,27 @@ class Limb {
     int m_lowerlimit;
     Servo m_servo;
     Limb (int angle_offset, int pin);
-  };
+};
 
-  class Arm : public Limb {
+class Arm : public Limb {
   public:
     Arm (int angle_offset, int pin);
-      // 90 degrees is orgin, therefore full range is 180
-      const int m_max_movement = 90;
-  };
+    // 90 degrees is orgin, therefore full range is 180
+    const int m_max_movement = 90;
+};
 
-  class Wrist : public Limb {
+class Wrist : public Limb {
   public:
     Wrist (int angle_offset, int pin);
-      // 90 degrees is orgin, therefore full range is 180
-      const int m_max_movement = 90;
-  };
+    // 90 degrees is orgin, therefore full range is 180
+    const int m_max_movement = 90;
+};
 
-  class Shoulder : public Limb {
+class Shoulder : public Limb {
   public:
     Shoulder (int angle_offset, int pin);
-      // 90 degrees is orgin, Full range is 40 degrees
-      const int m_max_movement = 20;
-  };
+    // 90 degrees is orgin, Full range is 40 degrees
+    const int m_max_movement = 20;
+};
 
 #endif
