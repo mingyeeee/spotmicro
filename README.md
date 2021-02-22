@@ -1,7 +1,7 @@
 # spotmicro-mingye
 Spotmicro build from https://www.thingiverse.com/thing:4559827.
 ## To do:
-- [ ] Electronics and wiring
+- [x] Electronics and wiring
 - [ ] Inverse kinematic model
 - [ ] Motion/gait planner
 
