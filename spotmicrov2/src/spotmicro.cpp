@@ -68,7 +68,7 @@ void IK_Model::calcAngles(int z_length, int y_length, int x_length, double * ang
   double z3 = z2/cos(legAngleWithX);
 
   // leg angle
-  angles[1] = (acos((pow(z3,2) + pow(111.1,2) - pow(118.5,2))/(2*z3*111.1))*180)/PI;
+  angles[1] = (acos((pow(z3,2) + pow(111.1,2) - pow(118.5,2))/(2*z3*111.1)-atan(x_length/z3))*180)/M_PI;
   // wrist angle
   angles[2] = (acos((pow(111.1,2) + pow(118.5,2) - pow(z3,2))/(2*111.1*118.5))*180)/M_PI;
 
