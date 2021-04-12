@@ -10,6 +10,9 @@
 #include "math.h"
 
 #define ANGLE_TO_MS 10.25
+#define LEG_LENGTH 111.126
+#define WRIST_LENGTH 118.5
+#define HIP_LENGTH 60.5
 
 class Limb {
   public:

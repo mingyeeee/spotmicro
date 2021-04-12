@@ -1,7 +1,7 @@
 #include "spotmicro.h"
 #include "controllerInput.h"
 //#include "TeensyThreads.h"
-double angle[2];
+double angle[3];
 
 // Remote Controller Setup
 int channelValues[4];

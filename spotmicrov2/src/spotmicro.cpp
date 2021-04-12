@@ -50,17 +50,26 @@ Shoulder::Shoulder (int angle_offset, int pin, int cw_max) : Limb(angle_offset, 
 // angle - Arm, Wrist, Shoulder angle values in that order
 void IK_Model::calcAngles(int z_length, int y_length, int x_length, double * angles)
 {
-  /*int z1 = z_length;
-  int x1 = x_length;
+  //tilt 
+  float hipOffset = y_length+HIP_LENGTH;
+  float hipAngleWithY1 = atan((hipOffset)/z_length);
+  float hipHyp = hipOffset/sin(hipAngleWithY1);
 
-  // calculate position to account for X axis
-  int z2 = sqrt(pow(z1,2), pow(x1,2));
-  int armXangle = atan(x1/z1);
-  */
+  float hipAngleWithY2 = acos(HIP_LENGTH/hipHyp);
+  //hip angle
+  angles[0] = ((hipAngleWithY2+hipAngleWithY1)*180)/PI;
+  //length of leg with tilt
+  float z2 = HIP_LENGTH*tan(hipAngleWithY2);
 
-  int z2 = z_length;
+  //new angle for foot position
+  double legAngleWithX = (atan(x_length/z2)*180)/PI;
+  //length of leg with x
+  double z3 = z2/cos(legAngleWithX);
+
   // leg angle
-  angles[0] = (acos((pow(z2,2) + pow(111.1,2) - pow(118.5,2))/(2*z2*111.1))*180)/PI;
+  angles[1] = (acos((pow(z3,2) + pow(111.1,2) - pow(118.5,2))/(2*z3*111.1))*180)/PI;
   // wrist angle
-  angles[1] = 180 - angles[0]-(acos((pow(z2,2) + pow(118.5,2) - pow(111.1,2))/(2*z2*118.5))*180)/PI;
+  angles[2] = 180 - angles[0]-(acos((pow(z3,2) + pow(118.5,2) - pow(111.1,2))/(2*z3*118.5))*180)/PI;
+
+  
 }
