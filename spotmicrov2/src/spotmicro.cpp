@@ -62,7 +62,8 @@ void IK_Model::calcAngles(int z_length, int y_length, int x_length, double * ang
   float z2 = HIP_LENGTH*tan(hipAngleWithY2);
 
   //new angle for foot position
-  double legAngleWithX = (atan(x_length/z2)*180)/PI;
+  double legAngleWithX = atan(x_length/z2)*180;
+  double legAngleWithXDeg = (legAngleWithX*180)/PI;
   //length of leg with x
   double z3 = z2/cos(legAngleWithX);
 
