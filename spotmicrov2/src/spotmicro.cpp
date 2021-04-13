@@ -13,7 +13,7 @@ Limb::Limb (int angle_offset, int pin, int cw_max) : m_initial_offset(angle_offs
   m_current_position = m_center_position;
 
   m_servo.attach(m_pin);
-
+  m_servo.write(m_center_position);
   Serial.print("center position: ");
   Serial.print(m_center_position);
   Serial.print(" angle offset: ");
@@ -31,24 +31,24 @@ void Limb::move_to_angle(float angle){
 Arm::Arm (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
 {
   Serial.print("Arm - current position: ");
-  Serial.print(m_current_position);
+  Serial.println(m_current_position);
 }
 
 
 Wrist::Wrist (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
 {
   Serial.print("Wrist - current position: ");
-  Serial.print(m_current_position);
+  Serial.println(m_current_position);
 }
 
 Shoulder::Shoulder (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
 {
   Serial.print("Shoulder - current position: ");
-  Serial.print(m_current_position);
+  Serial.println(m_current_position);
 }
 
 // angle - Arm, Wrist, Shoulder angle values in that order
-void IK_Model::calcAngles(int z_length, int y_length, int x_length, double * angles)
+void IK_Model::calcAngles(unsigned int z_length, int y_length, int x_length, double * angles)
 {
   //tilt 
   float hipOffset = y_length+HIP_LENGTH;
@@ -62,7 +62,7 @@ void IK_Model::calcAngles(int z_length, int y_length, int x_length, double * ang
   float z2 = HIP_LENGTH*tan(hipAngleWithY2);
 
   //new angle for foot position
-  double legAngleWithX = atan(x_length/z2)*180;
+  double legAngleWithX = atan(double(x_length)/z2)*180;
   double legAngleWithXDeg = (legAngleWithX*180)/PI;
   //length of leg with x
   double z3 = z2/cos(legAngleWithX);
