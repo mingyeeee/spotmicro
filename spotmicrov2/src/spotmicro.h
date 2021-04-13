@@ -1,6 +1,6 @@
 /*
-  Morse.h - Library for coordinating SpotMicro's servo movements.
-  Created by Mingye C 2021-02-10.
+  spotmicro.h - Library for coordinating SpotMicro's servo movements.
+  Created by Mingye C, Thomas Z, Michael S, Arden Z 2021-02-10.
 */
 #ifndef spotmicro_h
 #define spotmicro_h
@@ -60,7 +60,7 @@ class Shoulder : public Limb {
 
 class IK_Model{
   public:
-    static void calcAngles(int z_length, int y_length, int x_length, double * angles);
+    static void calcAngles(unsigned int z_length, int y_length, int x_length, double * angles);
 };
 
 #endif
