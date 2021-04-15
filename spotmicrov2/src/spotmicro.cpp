@@ -1,9 +1,11 @@
 /*
   spotmicro.cpp - Library for coordinating SpotMicro's servo movements.
-  Created by Mingye C 2021-02-10.
+  Created by Mingye, Thomas Z C 2021-02-10.
 */
 #include "Arduino.h"
 #include "spotmicro.h"
+#include "spotmicro_util.h"
+#include <Servo.h>
 #include "math.h"
 
 Limb::Limb (int angle_offset, int pin, int cw_max) : m_initial_offset(angle_offset), m_pin(pin), m_cw_limit(cw_max) 
@@ -11,9 +13,19 @@ Limb::Limb (int angle_offset, int pin, int cw_max) : m_initial_offset(angle_offs
   m_center_position = 90 + m_initial_offset;
   // Set starting configuration
   m_current_position = m_center_position;
-
+  m_target_position = m_current_position;
   m_servo.attach(m_pin);
   m_servo.write(m_center_position);
+  
+}
+
+void Limb::move_to_angle(float angle){
+  int ms_angle = int(map_float(angle , 0, 180, 554, 2400));
+  m_servo.writeMicroseconds(ms_angle);
+  Serial.println(ms_angle);
+}
+// debug function
+void Limb::mvar_debug(){
   Serial.print("center position: ");
   Serial.print(m_center_position);
   Serial.print(" angle offset: ");
@@ -21,11 +33,7 @@ Limb::Limb (int angle_offset, int pin, int cw_max) : m_initial_offset(angle_offs
   Serial.print(" pin: ");
   Serial.print(m_pin);
   Serial.print(" cw limit: ");
-  Serial.print(m_cw_limit);
-}
-void Limb::move_to_angle(float angle){
-  int ms_angle = int(angle * ANGLE_TO_MS);
-  m_servo.writeMicroseconds(ms_angle);
+  Serial.println(m_cw_limit);
 }
 
 Arm::Arm (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
@@ -33,7 +41,6 @@ Arm::Arm (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_ma
   Serial.print("Arm - current position: ");
   Serial.println(m_current_position);
 }
-
 
 Wrist::Wrist (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
 {

@@ -1,6 +1,6 @@
 /*
   spotmicro.h - Library for coordinating SpotMicro's servo movements.
-  Created by Mingye C, Thomas Z, Michael S, Arden Z 2021-02-10.
+  Created by Mingye C, Thomas Z 2021-02-10.
 */
 #ifndef spotmicro_h
 #define spotmicro_h
@@ -8,33 +8,44 @@
 #include "Arduino.h"
 #include <Servo.h>
 #include "math.h"
+#include "spotmicro_util.h"
 
-#define ANGLE_TO_MS 10.25
 #define LEG_LENGTH 111.126
 #define WRIST_LENGTH 118.5
 #define HIP_LENGTH 60.5
+// move servos every 10 ms
+#define MOVEMENT_INTERVAL 10
 
 class Limb {
   public:
     // tuning offsets
     int m_initial_offset;
     int m_pin;
-    int m_current_position;
+    float m_current_position;
+    // position to move to
+    float m_target_position; 
     // starting angle with offsets
     int m_initial_position;
     // starting angle without offsets
     int m_center_position;
     // angle at most clockwise direction
     int m_cw_limit;
+    // default movement speed to 1 deg per MOVEMENT_INTERVAL
+    float m_movement_speed = 1;
+
     Servo m_servo;
     
     Limb (int angle_offset, int pin, int up_max_angle);
+    //Limb ();
     void move_to_angle(float angle);
+    //prints all public members for debugging purposes
+    void mvar_debug();
 };
 
 class Arm : public Limb {
   public:
     Arm (int angle_offset, int pin, int up_maximum_angle);
+    //Arm ();
     // 90 degrees is orgin, therefore full range is 180
     const int m_max_movement = 90;
     // angle offset caused by the structure of the arm limb
