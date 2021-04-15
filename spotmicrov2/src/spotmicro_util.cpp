@@ -1,3 +1,5 @@
+/* utility functions for spotmicro
+ */
 #include "Arduino.h"
 #include "spotmicro_util.h"
 #include "math.h"
