@@ -51,6 +51,7 @@ class Arm : public Limb {
     // angle offset caused by the structure of the arm limb
     const double m_structural_offset = 15.7;
     // does the calculations to determine the angle the servo must move relative to the initial position at ~90 deg
+    float convertAngle(float angle);
     
 };
 
@@ -59,6 +60,7 @@ class Wrist : public Limb {
     Wrist (int angle_offset, int pin, int up_maximum_angle);
     // 90 degrees is orgin, therefore full range is 180
     const int m_max_movement = 90;
+    float convertAngle(float angle);
     
 };
 
@@ -67,6 +69,7 @@ class Shoulder : public Limb {
     Shoulder (int angle_offset, int pin, int up_maximum_angle);
     // 90 degrees is orgin, Full range is 40 degrees
     const int m_max_movement = 20;
+    float convertAngle(float angle);
 };
 
 class IK_Model{
