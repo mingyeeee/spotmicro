@@ -42,16 +42,31 @@ Arm::Arm (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_ma
   Serial.println(m_current_position);
 }
 
+float Arm::convertAngle(float angle)
+{
+  return (m_cw_limit == 180) ? m_initial_position - angle : m_initial_position + angle;
+}
+
 Wrist::Wrist (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
 {
   Serial.print("Wrist - current position: ");
   Serial.println(m_current_position);
 }
 
+float Wrist::convertAngle(float angle)
+{
+  return (m_cw_limit == 180) ? 180 - angle + m_initial_offset : angle + m_initial_offset;
+}
+
 Shoulder::Shoulder (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
 {
   Serial.print("Shoulder - current position: ");
   Serial.println(m_current_position);
+}
+
+float Shoulder::convertAngle(float angle)
+{
+  return angle + m_initial_offset;
 }
 
 // angle - Arm, Wrist, Shoulder angle values in that order
