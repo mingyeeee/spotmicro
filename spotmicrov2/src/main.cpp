@@ -57,7 +57,9 @@ bool state = true;
 void loop() {
   // Remote Controller values
   // testing
-  if(millis() - prev > 1000){
+  
+  if(millis() - prev > 100){
+    /*
     if(state){
       wrist[0].m_target_position = 100.5;
       wrist[1].m_target_position = 100.5;
@@ -80,8 +82,8 @@ void loop() {
       arm[3].m_target_position = 80.5;
     }
 
-    state = !state;
-    /*
+    state = !state;*/
+    
     channelValues[0] = channels[0].checkValueUpdate();
     channelValues[2] = channels[2].checkValueUpdate();
     channelValues[1] = channels[1].checkValueUpdate();
@@ -97,12 +99,16 @@ void loop() {
     Serial.print("angle 0: "); Serial.println(angle[0]);
     Serial.print("angle 1: "); Serial.println(angle[1]);
     Serial.print("angle 2: "); Serial.println(angle[2]);
+
+    Serial.print("converted arm: "); Serial.println(arm[0].convertAngle(angle[0]));
+    Serial.print("converted wrist: "); Serial.println(wrist[0].convertAngle(angle[1]));
+    Serial.print("converted shoulder: "); Serial.println(shoulder[0].convertAngle(angle[2]));
     prev = millis();
-    */
-   prev = millis();
+    
+   //prev = millis();
   }
   if(millis() - servotimer > MOVEMENT_INTERVAL){
-    servo_movement();
+    //servo_movement();
     servotimer = millis();
   }
 
