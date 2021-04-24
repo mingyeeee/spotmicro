@@ -22,7 +22,7 @@ Limb::Limb (int angle_offset, int pin, int cw_max) : m_initial_offset(angle_offs
 void Limb::move_to_angle(float angle){
   int ms_angle = int(map_float(angle , 0, 180, 554, 2400));
   m_servo.writeMicroseconds(ms_angle);
-  Serial.println(ms_angle);
+  //Serial.println(ms_angle);
 }
 // debug function
 void Limb::mvar_debug(){
@@ -44,7 +44,7 @@ Arm::Arm (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_ma
 
 float Arm::convertAngle(float angle)
 {
-  return (m_cw_limit == 180) ? m_initial_position - angle : m_initial_position + angle;
+  return (m_cw_limit == 180) ? angle + m_initial_offset : 180 - angle+ m_initial_offset;
 }
 
 Wrist::Wrist (int angle_offset, int pin, int cw_max) : Limb(angle_offset, pin, cw_max)
