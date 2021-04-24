@@ -58,32 +58,7 @@ void loop() {
   // Remote Controller values
   // testing
   
-  if(millis() - prev > 100){
-    /*
-    if(state){
-      wrist[0].m_target_position = 100.5;
-      wrist[1].m_target_position = 100.5;
-      wrist[2].m_target_position = 100.5;
-      wrist[3].m_target_position = 100.5;
-      arm[0].m_target_position = 100.5;
-      arm[1].m_target_position = 100.5;
-      arm[2].m_target_position = 100.5;
-      arm[3].m_target_position = 100.5;
-      
-    }
-    else{
-      wrist[0].m_target_position = 80.5;
-      wrist[1].m_target_position = 80.5;
-      wrist[2].m_target_position = 80.5;
-      wrist[3].m_target_position = 80.5;
-      arm[0].m_target_position = 80.5;
-      arm[1].m_target_position = 80.5;
-      arm[2].m_target_position = 80.5;
-      arm[3].m_target_position = 80.5;
-    }
-
-    state = !state;*/
-    
+  if(millis() - prev > 20){    
     channelValues[0] = channels[0].checkValueUpdate();
     channelValues[2] = channels[2].checkValueUpdate();
     channelValues[1] = channels[1].checkValueUpdate();
@@ -100,19 +75,24 @@ void loop() {
     Serial.print("angle 1: "); Serial.println(angle[1]);
     Serial.print("angle 2: "); Serial.println(angle[2]);
 
-    Serial.print("converted arm: "); Serial.println(arm[0].convertAngle(angle[0]));
-    Serial.print("converted wrist: "); Serial.println(wrist[0].convertAngle(angle[1]));
-    Serial.print("converted shoulder: "); Serial.println(shoulder[0].convertAngle(angle[2]));
+    Serial.print("converted arm: "); Serial.println(arm[0].convertAngle(angle[1]));
+    Serial.print("converted wrist: "); Serial.println(wrist[0].convertAngle(angle[2]));
+    Serial.print("converted shoulder: "); Serial.println(shoulder[0].convertAngle(angle[0]));
+
+    for(int i = 0; i < 4; i++){
+      arm[i].m_target_position = arm[i].convertAngle(angle[1]);
+      wrist[i].m_target_position = wrist[i].convertAngle(angle[2]);
+      shoulder[i].m_target_position = shoulder[i].convertAngle(angle[0]);
+    }
+
     prev = millis();
     
    //prev = millis();
   }
   if(millis() - servotimer > MOVEMENT_INTERVAL){
-    //servo_movement();
+    servo_movement();
     servotimer = millis();
   }
-
-
 }
 
 void servo_movement(){
@@ -131,7 +111,7 @@ void servo_movement(){
       arm[i].m_current_position += directionOfMovement * arm[i].m_movement_speed;
     }
     arm[i].move_to_angle(arm[i].m_current_position);
-    Serial.println(arm[i].m_current_position);
+    //Serial.println(arm[i].m_current_position);
     // -----------------------------------------wrist movement--------------------------------------------
     // checks if the current position is close enough to be equal to the target position
     if(fabs(wrist[i].m_current_position - wrist[i].m_target_position) < wrist[i].m_movement_speed){
@@ -145,7 +125,7 @@ void servo_movement(){
       wrist[i].m_current_position += directionOfMovement * wrist[i].m_movement_speed;
     }
     wrist[i].move_to_angle(wrist[i].m_current_position);
-    Serial.println(wrist[i].m_current_position);
+    //Serial.println(wrist[i].m_current_position);
 
     // -----------------------------------------shoulder movement--------------------------------------------
     // checks if the current position is close enough to be equal to the target position
@@ -160,8 +140,8 @@ void servo_movement(){
       shoulder[i].m_current_position += directionOfMovement * shoulder[i].m_movement_speed;
     }
     shoulder[i].move_to_angle(shoulder[i].m_current_position);
-    Serial.println(shoulder[i].m_current_position);
+    //Serial.println(shoulder[i].m_current_position);
 ;
-    Serial.println("----------------------------------------------");
+    //Serial.println("----------------------------------------------");
   }
 }
