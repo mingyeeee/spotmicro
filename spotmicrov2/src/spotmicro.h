@@ -15,6 +15,7 @@
 #define HIP_LENGTH 60.5
 // move servos every 10 ms
 #define MOVEMENT_INTERVAL 10
+#define TEST_MOVEMENT_INTERVAL 100
 
 class Limb {
   public:
